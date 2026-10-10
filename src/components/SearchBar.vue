@@ -14,6 +14,6 @@ watch(query, (newVal) => {
   clearTimeout(timeout)
   timeout = setTimeout(() => {
     emit('filter-by-name', newVal)
-  }, 300) // Debounce 300ms
+  }, 300)
 })
 </script>
