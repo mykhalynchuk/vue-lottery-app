@@ -2,7 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  // Замість import.meta.env.BASE_URL вкажи шлях жорстко
+  history: createWebHistory('/vue-lottery-app/'),
   routes: [
     {
       path: '/',
