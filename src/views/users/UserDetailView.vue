@@ -26,7 +26,6 @@ const isLoading = ref(true)
 const usersStore = useUsersStore()
 
 onMounted(async () => {
-  // Перевіряємо локальний стор, щоб відобразити фейкові оновлення, якщо вони є
   const localUser = usersStore.users.find((u) => u.id === Number(props.id))
   if (localUser) {
     user.value = localUser

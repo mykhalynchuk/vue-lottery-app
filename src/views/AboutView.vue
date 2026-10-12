@@ -9,9 +9,6 @@
         <h5 class="mt-4">Technical Skills:</h5>
         <ul>
           <li>C++ / Qt Widgets / Dear ImGui</li>
-          <li>Embedded Systems (STM32, Bare-metal, HAL)</li>
-          <li>MilTech Software / Computer Vision (OpenCV, YOLOv8)</li>
-          <li>Vue.js, TypeScript, SCSS</li>
         </ul>
         <a href="https://github.com/mykhalynchuk" target="_blank" class="card-link"
           >GitHub Акаунт</a
