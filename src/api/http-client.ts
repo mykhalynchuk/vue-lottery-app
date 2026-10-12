@@ -6,7 +6,6 @@ let isRefreshing = false
 export async function http<T>(path: string, options: RequestInit = {}): Promise<T> {
   const authStore = useAuthStore()
 
-  // 1. Використовуємо нативний об'єкт Headers для безпечної роботи
   const headers = new Headers(options.headers)
   headers.set('Content-Type', 'application/json')
 
@@ -16,12 +15,10 @@ export async function http<T>(path: string, options: RequestInit = {}): Promise<
 
   let response = await fetch(`${BASE_URL}${path}`, { ...options, headers })
 
-  // Interceptor для оновлення токена
   if (response.status === 401 && authStore.refreshToken && !isRefreshing) {
     isRefreshing = true
     try {
       await authStore.refresh()
-      // Оновлюємо заголовок з новим токеном
       headers.set('Authorization', `Bearer ${authStore.accessToken}`)
       response = await fetch(`${BASE_URL}${path}`, { ...options, headers })
     } catch (e) {

@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { ServiceProvider } from '../services/service-provider'
 import type { AuthUser } from '../types/auth'
+import router from '../router'
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<AuthUser | null>(JSON.parse(localStorage.getItem('auth_user') || 'null'))
@@ -28,7 +29,7 @@ export const useAuthStore = defineStore('auth', () => {
   const logout = () => {
     user.value = null
     localStorage.removeItem('auth_user')
-    window.location.href = '/login'
+    router.push('/login')
   }
 
   return { user, accessToken, refreshToken, isAuthenticated, login, refresh, logout }
