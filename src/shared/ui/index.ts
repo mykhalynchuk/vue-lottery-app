@@ -1,2 +1,4 @@
 export { default as AppButton } from './AppButton.vue'
 export { default as AppInput } from './AppInput.vue'
+export { default as AppTable } from './AppTable.vue'
+export { default as AppConfirmDialog } from './AppConfirmDialog.vue'
