@@ -30,7 +30,7 @@ export const useAuthStore = defineStore('auth', () => {
   const logout = () => {
     user.value = null
     localStorage.removeItem('auth_user')
-    router.push('/login')
+    window.location.href = import.meta.env.BASE_URL + 'login'
   }
 
   return { user, accessToken, refreshToken, isAuthenticated, login, refresh, logout }
