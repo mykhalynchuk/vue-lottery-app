@@ -1,5 +1,5 @@
-import { http } from '../api/http-client'
-import type { AuthUser } from '../types/auth'
+import { http } from '@/shared/api/http-client'
+import type { AuthUser } from '../model/types'
 
 export class AuthService {
   async login(credentials: Record<string, string>): Promise<AuthUser> {

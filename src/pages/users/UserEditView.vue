@@ -1,7 +1,7 @@
 <template>
   <div v-if="isLoading" class="text-center py-5"><span class="spinner-border"></span></div>
   <div v-else class="card p-4">
-    <h4>Edit User #{{ id }}</h4>
+    <h4>Edit Types #{{ id }}</h4>
     <form @submit="onSubmit">
       <div class="row">
         <div class="col-md-6 mb-3">
