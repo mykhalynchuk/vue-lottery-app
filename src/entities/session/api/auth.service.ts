@@ -1,4 +1,4 @@
-import { http } from '@/shared/api/http-client'
+import { http } from '@/shared/api'
 import type { AuthUser } from '../model/types'
 
 export class AuthService {

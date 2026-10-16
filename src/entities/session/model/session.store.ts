@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { ServiceProvider } from '@/shared/api/service-provider'
+import { ServiceProvider } from '@/shared/api'
 import type { AuthService } from '../api/auth.service'
 import type { AuthUser } from './types'
 
@@ -39,7 +39,6 @@ export const useSessionStore = defineStore(
   },
   {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     persist: true,
   },
 )

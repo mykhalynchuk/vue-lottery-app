@@ -1,6 +1,6 @@
-import { http } from '@/shared/api/http-client'
+import { http } from '@/shared/api'
 import type { User, CreateUserDto, UpdateUserDto, UsersResponse } from '../model/types'
-import type { Readable, Creatable, Editable, Deletable } from '@/shared/api/interfaces'
+import type { Readable, Creatable, Editable, Deletable } from '@/shared/api'
 export class UserService
   implements
     Readable<User>,
