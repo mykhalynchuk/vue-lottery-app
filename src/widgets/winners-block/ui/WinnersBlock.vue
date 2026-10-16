@@ -8,7 +8,7 @@
       <WinnerItem
         v-for="winner in winners"
         :key="winner.id"
-        :name="winner.name"
+        :name="winner.firstName + ' ' + winner.lastName"
         @remove="$emit('remove-winner', winner.id)"
       />
     </div>
@@ -23,9 +23,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Participant } from '../types'
+import type { User as Participant } from '@/entities/user'
 import WinnerItem from './WinnerItem.vue'
-import BaseButton from './ui/BaseButton.vue'
+import { BaseButton } from '@/shared/ui'
 import { computed } from 'vue'
 
 const props = defineProps<{

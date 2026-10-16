@@ -16,14 +16,14 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { ServiceProvider } from '../../services/service-provider'
-import type { User } from '../../types/user'
-import { useUsersStore } from '../../stores/users'
+import { useUsersStore, UserService } from '@/entities/user'
+import type { User } from '@/entities/user'
 
 const props = defineProps<{ id: string }>()
 const user = ref<User | null>(null)
 const isLoading = ref(true)
 const usersStore = useUsersStore()
+const userService = new UserService()
 
 onMounted(async () => {
   const localUser = usersStore.users.find((u) => u.id === Number(props.id))
@@ -32,7 +32,7 @@ onMounted(async () => {
     isLoading.value = false
   } else {
     try {
-      user.value = await ServiceProvider.users.getById(Number(props.id))
+      user.value = await userService.getById(Number(props.id))
     } catch (e) {
       console.error(e)
     } finally {

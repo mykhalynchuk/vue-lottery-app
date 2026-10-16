@@ -59,13 +59,16 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useForm, useField } from 'vee-validate'
-import * as yup from 'yup'
-import { ServiceProvider } from '../../services/service-provider'
-import { useUsersStore } from '../../stores/users'
+import * as yup from 'yup' // Виправлено синтаксис імпорту yup
+
+// Видаляємо старий ServiceProvider!
+// В FSD ми імпортуємо сервіс безпосередньо з потрібного слайсу:
+import { useUsersStore, UserService } from '@/entities/user'
 
 const props = defineProps<{ id: string }>()
 const router = useRouter()
 const usersStore = useUsersStore()
+const userService = new UserService()
 const isLoading = ref(true)
 const isSaving = ref(false)
 
@@ -83,18 +86,19 @@ const { value: email } = useField('email')
 const { value: age } = useField('age')
 
 onMounted(async () => {
-  const localUser = usersStore.users.find((u) => u.id === Number(props.id))
-  let userData = localUser
+  let userData = usersStore.users.find((u) => u.id === Number(props.id))
 
   if (!userData) {
     try {
-      userData = await ServiceProvider.users.getById(Number(props.id))
+      userData = await userService.getById(Number(props.id))
     } catch {
       alert('Помилка завантаження')
       router.push('/users')
       return
     }
   }
+
+  if (!userData) return
 
   setValues({
     firstName: userData.firstName,
@@ -108,7 +112,7 @@ onMounted(async () => {
 const onSubmit = handleSubmit(async (values) => {
   isSaving.value = true
   try {
-    const updatedUser = await ServiceProvider.users.update(Number(props.id), values)
+    const updatedUser = await userService.update(Number(props.id), values)
     usersStore.updateUserLocal(Number(props.id), updatedUser)
     router.push('/users')
   } catch (e) {

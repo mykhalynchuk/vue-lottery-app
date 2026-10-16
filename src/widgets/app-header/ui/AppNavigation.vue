@@ -12,7 +12,7 @@
 
     <button
       v-if="authStore.isAuthenticated"
-      @click="authStore.logout"
+      @click="authStore.clearSession()"
       class="nav-link btn btn-link text-danger"
     >
       Logout
@@ -22,6 +22,6 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from '../stores/auth'
-const authStore = useAuthStore()
+import { useSessionStore } from '@/entities/session'
+const authStore = useSessionStore()
 </script>

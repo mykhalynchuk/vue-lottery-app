@@ -3,9 +3,12 @@ import { onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useUsersStore } from '@/entities/user'
-import SearchBar from '@/widgets/SearchBar.vue'
-import ParticipantsTable from '@/widgets/ParticipantsTable.vue'
+import { SearchBar } from '@/widgets/search-bar'
+import { ParticipantsTable } from '@/widgets/participants-table'
 import { useToast } from 'primevue/usetoast'
+import { WinnersBlock } from '@/widgets/winners-block'
+import { ref } from 'vue'
+import type { User } from '@/entities/user'
 
 const store = useUsersStore()
 const { users, isLoading, error } = storeToRefs(store)
@@ -16,6 +19,8 @@ const router = useRouter()
 const toast = useToast()
 
 const ITEMS_PER_PAGE = 10
+
+const winners = ref<User[]>([])
 
 const loadData = async () => {
   const page = parseInt(route.query.page as string) || 1
@@ -56,6 +61,22 @@ const deleteParticipant = async (id: number) => {
     })
   }
 }
+const pickRandomWinner = () => {
+  const availableUsers = users.value.filter((u) => !winners.value.some((w) => w.id === u.id))
+
+  if (availableUsers.length > 0 && winners.value.length < 3) {
+    const randomIndex = Math.floor(Math.random() * availableUsers.length)
+    const selectedUser = availableUsers[randomIndex]
+
+    if (selectedUser) {
+      winners.value.push(selectedUser)
+    }
+  }
+}
+
+const removeWinner = (id: number) => {
+  winners.value = winners.value.filter((w) => w.id !== id)
+}
 </script>
 
 <template>
@@ -63,7 +84,13 @@ const deleteParticipant = async (id: number) => {
     <h2>Учасники лотереї</h2>
 
     <SearchBar @search="handleSearch" :initial-query="(route.query.q as string) || ''" />
-
+    <WinnersBlock
+      class="mb-4"
+      :winners="winners"
+      :totalParticipants="users.length"
+      @new-winner="pickRandomWinner"
+      @remove-winner="removeWinner"
+    />
     <ParticipantsTable
       :participants="users"
       :loading="isLoading"

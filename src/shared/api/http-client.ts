@@ -1,10 +1,10 @@
-import { useAuthStore } from '../stores/auth'
+import { useSessionStore } from '@/entities/session'
 
 const BASE_URL = import.meta.env.VITE_API_URL
 let isRefreshing = false
 
 export async function http<T>(path: string, options: RequestInit = {}): Promise<T> {
-  const authStore = useAuthStore()
+  const authStore = useSessionStore()
 
   const headers = new Headers(options.headers)
   headers.set('Content-Type', 'application/json')
@@ -22,7 +22,7 @@ export async function http<T>(path: string, options: RequestInit = {}): Promise<
       headers.set('Authorization', `Bearer ${authStore.accessToken}`)
       response = await fetch(`${BASE_URL}${path}`, { ...options, headers })
     } catch (e) {
-      authStore.logout()
+      authStore.clearSession()
     } finally {
       isRefreshing = false
     }

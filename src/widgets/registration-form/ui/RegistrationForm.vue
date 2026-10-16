@@ -46,10 +46,9 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
-import type { Participant } from '../types'
-import BaseInput from './ui/BaseInput.vue'
-import BaseButton from './ui/BaseButton.vue'
+import type { User as Participant } from '@/entities/user'
 
+import { BaseInput, BaseButton } from '@/shared/ui'
 const props = defineProps<{ existingEmails: string[] }>()
 const emit = defineEmits<{ (e: 'save', participant: Omit<Participant, 'id'>): void }>()
 
@@ -112,8 +111,22 @@ const validate = () => {
 
 const submitForm = () => {
   if (validate()) {
-    emit('save', { ...form })
-    // Reset form without triggering validation
+    const nameParts = form.name.split(' ')
+    const firstName = nameParts[0]
+    const lastName = nameParts.slice(1).join(' ') || 'Participant'
+
+    const newUser = {
+      firstName,
+      lastName,
+      email: form.email,
+      phone: form.phone,
+      age: 18,
+      gender: 'male',
+      username: form.email.split('@')[0],
+    } as unknown as Omit<Participant, 'id'>
+
+    emit('save', newUser)
+
     Object.assign(form, defaultForm)
     Object.keys(errors).forEach((k) => {
       errors[k as keyof typeof errors] = ''
